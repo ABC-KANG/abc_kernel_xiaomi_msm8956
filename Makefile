@@ -587,6 +587,17 @@ KBUILD_CFLAGS   += $(call cc-disable-warning,unused-const-variable,)
 # Disable misleading warnings
 KBUILD_CFLAGS   += $(call cc-disable-warning,misleading-indentation,)
 
+###########################
+# FLASH OPTMIZATION SETUP #
+###########################
+
+# Strip linker
+LDFLAGS		+= --strip-debug -O2
+
+# These flags need a special toolchain so split them off
+KBUILD_CFLAGS	+= $(call cc-option,-mlow-precision-recip-sqrt,) \
+		   $(call cc-option,-mpc-relative-literal-loads,)
+
 # Disable format-truncation warnings
 KBUILD_CFLAGS   += $(call cc-disable-warning,format-truncation,)
 
