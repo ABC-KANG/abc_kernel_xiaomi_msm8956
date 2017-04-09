@@ -396,7 +396,7 @@ static int wcd_cancel_btn_work(struct wcd_mbhc *mbhc)
 
 static bool wcd_swch_level_remove(struct wcd_mbhc *mbhc)
 {
-	u16 result2;
+	u16 result2 = 0;
 
 	WCD_MBHC_REG_READ(WCD_MBHC_SWCH_LEVEL_REMOVE, result2);
 	return (result2) ? true : false;
@@ -431,7 +431,7 @@ static void wcd_cancel_hs_detect_plug(struct wcd_mbhc *mbhc,
 static void wcd_mbhc_clr_and_turnon_hph_padac(struct wcd_mbhc *mbhc)
 {
 	bool pa_turned_on = false;
-	u8 wg_time;
+	u8 wg_time = 0;
 
 	WCD_MBHC_REG_READ(WCD_MBHC_HPH_CNP_WG_TIME, wg_time);
 	wg_time += 1;
@@ -471,7 +471,7 @@ static bool wcd_mbhc_is_hph_pa_on(struct wcd_mbhc *mbhc)
 
 static void wcd_mbhc_set_and_turnoff_hph_padac(struct wcd_mbhc *mbhc)
 {
-	u8 wg_time;
+	u8 wg_time = 0;
 
 	WCD_MBHC_REG_READ(WCD_MBHC_HPH_CNP_WG_TIME, wg_time);
 	wg_time += 1;
@@ -848,7 +848,7 @@ static int wcd_check_cross_conn(struct wcd_mbhc *mbhc)
 {
 	u16 swap_res;
 	enum wcd_mbhc_plug_type plug_type = MBHC_PLUG_TYPE_NONE;
-	s16 reg1;
+	s16 reg1 = 0;
 	bool hphl_sch_res, hphr_sch_res;
 
 	if (wcd_swch_level_remove(mbhc)) {
@@ -1424,7 +1424,7 @@ static void wcd_mbhc_detect_plug_type(struct wcd_mbhc *mbhc)
 
 static void wcd_mbhc_swch_irq_handler(struct wcd_mbhc *mbhc)
 {
-	bool detection_type;
+	bool detection_type = false;
 	bool micbias1 = false;
 	struct snd_soc_codec *codec = mbhc->codec;
 
@@ -1613,9 +1613,9 @@ static irqreturn_t wcd_mbhc_hs_ins_irq(int irq, void *data)
 {
 	struct wcd_mbhc *mbhc = data;
 	bool detection_type, hphl_sch, mic_sch;
-	u16 elect_result;
-	static u16 hphl_trigerred;
-	static u16 mic_trigerred;
+	u16 elect_result = 0;
+	static u16 hphl_trigerred = 0;
+	static u16 mic_trigerred = 0;
 
 	pr_debug("%s: enter\n", __func__);
 	if (!mbhc->mbhc_cfg->detect_extn_cable) {
