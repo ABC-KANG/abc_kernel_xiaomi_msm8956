@@ -66,6 +66,8 @@ static u64 last_input_time;
 static unsigned int min_input_interval = 150;
 module_param(min_input_interval, uint, 0644);
 
+static bool input_boost_pending;
+
 static int set_input_boost_freq(const char *buf, const struct kernel_param *kp)
 {
 	int i, ntokens = 0;
@@ -190,6 +192,9 @@ static void do_input_boost_rem(struct work_struct *work)
 	/* Update policies for all online CPUs */
 	update_policy_online();
 
+	if (input_boost_pending)
+		return;
+
 	sched_set_shadow_active(false);
 
 	if (sched_boost_active) {
@@ -204,6 +209,8 @@ static void do_input_boost(struct work_struct *work)
 {
 	unsigned int i, ret;
 	struct cpu_sync *i_sync_info;
+
+	input_boost_pending = true;
 
 	if (!input_boost_ms)
 		return;
@@ -223,6 +230,8 @@ static void do_input_boost(struct work_struct *work)
 
 	/* Update policies for all online CPUs */
 	update_policy_online();
+
+	input_boost_pending = false;
 
 	sched_set_shadow_active(true);
 
