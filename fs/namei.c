@@ -128,7 +128,6 @@ void final_putname(struct filename *name)
 	}
 }
 
-#define EMBEDDED_NAME_MAX	(PATH_MAX - sizeof(struct filename))
 
 static struct filename *
 getname_flags(const char __user *filename, int flags, int *empty)
